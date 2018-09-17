@@ -30,3 +30,15 @@ pacman -Sy nodejs
 On other distributions, use [nvm](https://github.com/creationix/nvm#installation), or install it by following the directions for you distribution/OS on the [nodejs site itself](https://nodejs.org/en/download/package-manager/).
 
 **Note:** To install packages globally wit npm and **without** ```sudo```, I usually follow this [procedure](https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md).
+
+# Documentation
+
+* Official [docs](https://www.typescriptlang.org/docs/home.html)
+* [% minute tutorial](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+* [Handbok](https://www.typescriptlang.org/docs/handbook/basic-types.html)
+
+# Tutorials and books
+
+As a quick reference I went through [this one on tutorialspoint.com](https://www.tutorialspoint.com/typescript/index.htm).
+
+However there is a nice in-depth book - [TypeScript Deep Dive](https://basarat.gitbooks.io/typescript/content/).
