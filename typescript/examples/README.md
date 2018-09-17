@@ -21,3 +21,8 @@ Selects random puzzle from AoC events.
 tsc select_random_puzzle.ts
 node select_random_puzzle.js
 ```
+
+## AdventOfCode puzzles
+
+### Year 2015, puzzle 12
+
