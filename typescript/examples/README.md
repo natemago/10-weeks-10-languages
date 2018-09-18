@@ -26,3 +26,9 @@ node select_random_puzzle.js
 
 ### Year 2015, puzzle 12
 
+Solution to [AoC 2015 event, puzzle 12](https://adventofcode.com/2015/day/12).
+To run it:
+```
+tsc aoc_2015_day_12.ts
+node aoc_2015_day_12.js input_2015_day_12
+```
