@@ -35,3 +35,4 @@ node aoc_2015_day_12.js input_2015_day_12
 
 ### Year 2017, puzzle 13
 
+Disk defragmenter with hash :).

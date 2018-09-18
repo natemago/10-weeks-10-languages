@@ -25,3 +25,10 @@ I'll put links as I progress, so stay tuned.
 
 Starting off with [Typescript](https://www.typescriptlang.org/). This language is a superset of Javascript.
 See more [here](typescript/README.md)
+
+# Week 2 - Julia
+
+From Wikipedia:
+> Julia is a high-level general-purpose dynamic programming language that was originally designed to address the needs of high-performance numerical analysis and computational science, without the typical need of separate compilation to be fast, also usable for client and server web use, low-level systems programming or as a specification language.
+
+More, [here](julia/README.md).
