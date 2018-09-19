@@ -97,13 +97,135 @@ class KnotHash {
 }
 
 
+function bitsToString(hashStr:string, zero:string=".", one:string="#"):string[]{
+    var bitsRepr = []
+
+    for (var i = 0; i < hashStr.length; i+=2){
+        let v = parseInt(hashStr.slice(i, i+2), 16)
+        let mask = 0x80
+        for (var j = 0; j < 8; j++ ){
+            if(v&mask){
+                bitsRepr.push(one)
+            }else{
+                bitsRepr.push(zero)
+            }
+            mask >>= 1
+        }
+    }
+
+    return bitsRepr
+}
+
 class Defragmenter{
     private grid:string[][];
     private hashes:string[];
 
     constructor(private keyString:string){
-
+        this.hashes = []
+        this.grid = []
+        this.generateGrid()
     }
+
+    private getGridSize():Object{
+        var rows = this.grid.length
+        var cols =  rows > 0 ? this.grid[0].length : 0
+        return {
+            'rows': rows,
+            'cols': cols
+        }
+    }
+
+    private generateGrid():void{
+        for (var i = 0; i < 128; i++){
+            let idxKey = `${this.keyString}-${i}`
+            let hash = new KnotHash(idxKey).digest()
+            this.hashes.push(hash)
+            this.grid.push(bitsToString(hash))
+        }
+    }
+
+    public drawGrid(maxRow:number=-1, maxCol:number=-1):void{
+        let gridSize  =this.getGridSize()
+        if (maxRow < 0 || maxRow > gridSize['rows'] ){
+            maxRow = gridSize['rows']
+        }
+        if (maxCol < 0 || maxCol > gridSize['cols']) {
+            maxCol = gridSize['cols']
+        }
+        for (var i = 0; i < maxCol; i++){
+            console.log(this.grid[i].slice(0, maxRow).join(''))
+        }
+    }
+
+    public countOnes():number{
+        let count = 0
+        let cols = this.getGridSize()['cols']
+        let rows = this.getGridSize()['rows']
+        for(var i = 0; i < cols; i++){
+            for (var j = 0; j < rows; j++){
+                if (this.grid[j][i] != '.'){
+                    count++
+                }
+            }
+        }
+        return count
+    }
+
+    public countContigiousRegions():number{
+        var grid = this.grid
+        var gridSize = this.getGridSize()
+        var key = function(col,row:number):string{
+            return `${col}-${row}`
+        }
+        var getAvailableCells = function(col:number, row:number, visited:Object):number[][]{
+            var available:number[][] = []
+            if(row > 0 && !visited[key(col, row-1)]){
+                available.push([col, row-1])
+            }
+            if (row < gridSize['rows'] -1 && !visited[key(col, row+1)]){
+                available.push([col, row+1])
+            }
+            if(col > 0 && !visited[key(col-1, row)]){
+                available.push([col-1, row])
+            }
+            if(col < gridSize['cols']-1 && !visited[key(col+1, row)]){
+                available.push([col+1, row])
+            }
+            return available
+        }
+        
+        
+        var markAll = function(col,row,curr:number, visited:Object):void{
+            if(visited[key(col,row)]){
+                return
+            }
+            visited[key(col, row)] = true
+            if(grid[row][col] == '.'){
+                return
+            }
+            grid[row][col] = `${curr}`
+            var available = getAvailableCells(col,row, visited)
+            available.forEach(function(pos){
+                if(grid[pos[1]][pos[0]] == '#'){
+                    markAll(pos[0], pos[1], curr, visited)
+                }
+            })
+        }
+
+        var visited = {}
+        var count = 0
+        for(var i = 0; i < gridSize['rows']; i++){
+            for(var j = 0; j < gridSize['cols']; j++){
+                if(grid[i][j] == '#'){
+                    count++
+                    markAll(j, i, count, visited)
+                }
+            }
+        }
+
+        return count
+    }
+
 }
 
 function assert(val:any, expected:any, message?:string){
@@ -123,3 +245,20 @@ assert(new KnotHash("AoC 2017").digest(), "33efeb34ea91902bb2f59c9920caa6cd")
 assert(new KnotHash("1,2,3").digest(), "3efbe78a8d82f29979031a4aa0b16a9d")
 assert(new KnotHash("1,2,4").digest(), "63960835bcdc130f0b66d7ff4f6a5a8e")
 
+
+var def = new Defragmenter("flqrgnkx")
+var contRegions = def.countContigiousRegions()
+def.drawGrid(8,8)
+console.log('Continious regions:', contRegions)
+assert(contRegions, 1242)
+
+assert(def.countOnes(), 8108)
+console.log('✓ Test OK')
+
+def = new Defragmenter('jzgqcdpd')
+def.drawGrid(8,8)
+assert(def.countOnes(), 8074)
+console.log('✓ Part 1 OK')
+
+assert(def.countContigiousRegions(), 1212)
+console.log('✓ Part 2 OK')
