@@ -1,0 +1,28 @@
+{
+  "name": "ts-examples",
+  "version": "1.0.0",
+  "description": "TypeScript Examples.",
+  "main": "select_random_puzzle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natemago/10-weeks-10-languages.git"
+  },
+  "keywords": [
+    "learning",
+    "learning-by-doing",
+    "10-weeks-10-languages"
+  ],
+  "author": "Pavle Jonoski <pavle.jonoski@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/natemago/10-weeks-10-languages/issues"
+  },
+  "homepage": "https://github.com/natemago/10-weeks-10-languages#readme",
+  "devDependencies": {
+    "@types/node": "^10.11.3",
+    "typescript": "^3.1.1"
+  }
+}
