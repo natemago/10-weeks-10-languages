@@ -17,3 +17,19 @@ On [Archlinux](https://wiki.archlinux.org/index.php/Julia) it can be installed w
 ```bash
 sudo pacman -Sy julia
 ```
+
+# Run with Docker
+
+There is a ```library``` image available on Docker Hub, called ```julia```.
+
+To run the REPL in the current dir, run:
+
+```
+docker run -it --rm -v $(pwd):/usr/myapp -w /usr/myadd julia
+```
+
+To run a Julia script in the current dir:
+
+```
+docker run -it --rm -v $(pwd):/usr/myapp -w /usr/myadd julia julia script.jl <arg> <arg>
+```
