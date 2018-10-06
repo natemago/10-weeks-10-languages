@@ -32,3 +32,7 @@ From Wikipedia:
 > Julia is a high-level general-purpose dynamic programming language that was originally designed to address the needs of high-performance numerical analysis and computational science, without the typical need of separate compilation to be fast, also usable for client and server web use, low-level systems programming or as a specification language.
 
 More, [here](julia/README.md).
+
+# Week 3 - Rust
+
+[Rust](https://www.rust-lang.org/en-US/) is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
