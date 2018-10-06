@@ -4,11 +4,30 @@ struct Instruction
     arg2::String
 end
 
+mutable struct Queue
+    q::Array{Any, 1}
+end 
+
+Queue() = Queue([])
+
+function take!(q::Queue)::Any
+    if length(q.q) > 0
+        v = q.q[1]
+        q.q = q.q[2:length(q.q)]
+        return v
+    end
+    return nothing
+end
+
+function put!(q::Queue, v::Any)
+    q.q = push!(q.q, v)
+end
+
 mutable struct Computer 
     id::String
     ops::Dict
-    rx::Channel
-    tx::Channel
+    rx::Queue
+    tx::Queue
     mem::Array{Instruction,1}
     regs::Dict
     send::String
@@ -24,7 +43,7 @@ end
 
 function pcincr!(comp::Computer, i::Int64)
     if comp.pc + i > length(comp.mem) || comp.pc + i < 1
-        throw(error("HALT"))
+        throw(error("HALT: $(comp.id), PC: $(comp.pc), INCR: $(i)"))
     end
     comp.pc = comp.pc + i
 end
@@ -41,7 +60,7 @@ function getvalue!(cmp::Computer, val::String)::Int64
     return 0
 end
 
-function NewComputer(id::String, prog::Array{Instruction, 1}, rx::Channel, tx::Channel, part2::Bool=false)::Computer
+function NewComputer(id::String, prog::Array{Instruction, 1}, rx::Queue, tx::Queue, part2::Bool=false)::Computer
     regs = Dict()
     ops = Dict(
         "snd" => function(comp::Computer, instr::Instruction)
@@ -49,8 +68,8 @@ function NewComputer(id::String, prog::Array{Instruction, 1}, rx::Channel, tx::C
             comp.send = "$val"
             comp.sendcount += 1
             if part2
-                println(" ==", comp.id," sends ", getvalue!(comp, instr.arg1), " sendcount=", comp.sendcount)
-                put!(comp.tx, getvalue!(comp, instr.arg1))
+                println(" ==", comp.id," sends ", val, " sendcount=", comp.sendcount)
+                put!(comp.tx, val)
             end
             pcincr!(comp, 1)
         end,
@@ -83,23 +102,25 @@ function NewComputer(id::String, prog::Array{Instruction, 1}, rx::Channel, tx::C
             if val != 0
                 comp.recv = comp.send
             end
+
             if part2
                 comp.iswaiting = true
                 println(" ==", comp.id, " is receiving...")
-                if !isready(comp.rx)
-                    yield()
+                v = take!(comp.rx)
+                if v == nothing
+                    return
                 end
-                val = take!(comp.rx)
                 comp.iswaiting = false
-                comp.regs[instr.arg1] = val
-                println(" ==", comp.id, " received:", val)
+                comp.regs[instr.arg1] = v
+                println(" ==", comp.id, " received:", v)
             end
+            
             pcincr!(comp, 1)
         end,
         "jgz" => function(comp::Computer, instr::Instruction)
             val = getvalue!(comp, instr.arg1)
             inc = getvalue!(comp, instr.arg2)
-            if val != 0
+            if val > 0
                 pcincr!(comp, inc)
             else
                 pcincr!(comp, 1)
@@ -114,8 +135,6 @@ end
 function runstep!(comp::Computer)
     instr = comp.mem[comp.pc] # fetch
     exec = comp.ops[instr.op] # decode
-    # println("   >", instr, "    sendcount: ", comp.sendcount)
-    # println(comp.id, ">", instr,": sendcount=", comp.sendcount)
     exec(comp, instr) # execute
 end
 
@@ -165,7 +184,7 @@ testcomp = NewComputer("test", parseprog([
     "jgz a -1",
     "set a 1",
     "jgz a -2"
-]),Channel(1), Channel(1))
+]),Queue(), Queue())
 
 run!(testcomp, comp::Computer -> comp.recv != "" )
 
@@ -173,7 +192,7 @@ println("Test:", testcomp.recv)
 
 prog = parseprog(loadprog("aoc_2017_day_18_input"))
 
-p1comp = NewComputer("part1", prog, Channel(10000), Channel(10000))
+p1comp = NewComputer("part1", prog, Queue(), Queue())
 
 println(" *** Running part 1 ***")
 
@@ -184,38 +203,37 @@ println("Part1:", p1comp.recv)
 println(" ********************************* ")
 println(" *** Part 2")
 
-rx = Channel(100000000)
-tx = Channel(100000000)
+rx = Queue()
+tx = Queue()
 
-# prog = parseprog([
-#     "snd 1",
-#     "snd 2",
-#     "snd p",
-#     "rcv a",
-#     "rcv b",
-#     "rcv c",
-#     "rcv d"
-# ])
+t2prog = parseprog([
+    "snd 1",
+    "snd 2",
+    "snd p",
+    "rcv a",
+    "rcv b",
+    "rcv c",
+    "rcv d"
+])
+
+#prog = t2prog
 
 prog0 = NewComputer("prog-0", prog, rx, tx, true)
 prog0.regs["p"] = 0
 prog1 = NewComputer("prog-1", prog, tx, rx, true)
-prog0.regs["p"] = 1
+prog1.regs["p"] = 1
 
 function stopcond(comp::Computer)::Bool
-    # println(prog0.iswaiting, ':', prog1.iswaiting)
     return prog0.iswaiting && prog1.iswaiting
 end
 
-t1 = @async run!(prog0, stopcond)
-t2 = @async run!(prog1, stopcond)
-
-println(t1)
 while true
-    if istaskdone(t1) && istaskdone(t2)
+    runstep!(prog0)
+    runstep!(prog1)
+    if prog0.iswaiting && prog1.iswaiting
         break
     end
-    yield()
 end
 println(" =====> ", prog0.sendcount, "   |   ", prog1.sendcount)
+println(" Part 2 solution: ", prog1.sendcount)
 
