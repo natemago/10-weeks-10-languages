@@ -14,9 +14,20 @@ fn getbeer(beers:u64){
     println!("{} on the wall, {}.",upp_how_many_beers, how_many_beers);
 }
 
+fn takeone(beer:u64){
+    if beer > 0 {
+        let beers_on_the_wall = bottlesofbeer(beer - 1);
+        println!("Take one down, pass it around. {} on the wall.", beers_on_the_wall);
+    }else{
+        println!("Go to the store and buy some more, 99 bottles of beer on the wall.");
+    }
+}
+
 
 fn main() {
     for i in (0..100).rev() {
+        println!();
         getbeer(i);
+        takeone(i);
     }
 }
