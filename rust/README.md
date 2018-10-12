@@ -29,3 +29,6 @@ Variables are by default immutable, but are not constants.
 
 
 # AoC
+
+## Event 2015, Day 1 (the very first AoC chanllenge)
+
