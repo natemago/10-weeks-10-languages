@@ -22,5 +22,10 @@ chmod +x rust.sh
 
 # Features
 
+Very similar to C++ - extremly low level, with fine-grained control over memory (stack/heap).
+Remember to add ```;``` when ending expressions (C/C++/Java like style).
+
+Variables are by default immutable, but are not constants.
+
 
 # AoC
