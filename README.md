@@ -36,3 +36,9 @@ More, [here](julia/README.md).
 # Week 3 - Rust
 
 [Rust](https://www.rust-lang.org/en-US/) is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
+
+See the examples [here](rust/README.md).
+
+# Week 4 - Haskell
+
+[Haskell](https://www.haskell.org/) is an advanced, purely functionalprogramming language.
