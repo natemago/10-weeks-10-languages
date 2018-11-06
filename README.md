@@ -42,3 +42,10 @@ See the examples [here](rust/README.md).
 # Week 4 - Haskell
 
 [Haskell](https://www.haskell.org/) is an advanced, purely functionalprogramming language.
+
+
+# Week 5 - Sed & Awk
+
+[sed](https://www.gnu.org/software/sed/) (stream editor) is a non-interactive command-line text editor.
+
+[awk](https://www.gnu.org/software/gawk/manual/gawk.html) AWK is a programming language designed for text processing and typically used as a data extraction and reporting tool.
