@@ -1,26 +1,13 @@
-99 Beers in Awk
-===============
+Awk
+===
 
-Run it:
+[AWK](https://www.gnu.org/software/gawk/manual/gawk.html) is a programming language designed for text processing and typically used as a data extraction and reporting tool.
 
-```
-seq 99 -1 0 | awk -f beers.awk
-```
+There is a great tutorial on [tutorialspoint](https://www.tutorialspoint.com/awk/).
 
-Awk: AoC 2017, day 15 
-=====================
+Sed
+===
 
-Solution for [AoC 2017, Day 15](https://adventofcode.com/2017/day/15):
+[sed](https://www.gnu.org/software/sed/) (stream editor) is a non-interactive command-line text editor.
 
-```
-echo "" | awk -f aoc_2017_day_15.awk
-```
-
-Awk: AoC 2016, Day 3
-====================
-
-Solution for [AoC 2016, Day 3](https://adventofcode.com/2016/day/3):
-
-```
-cat input_2016_day_3 | awk -f aoc_2016_day_3.awk
-```
+An exceptionally good tutorial [here](http://www.grymoire.com/Unix/Sed.html).
