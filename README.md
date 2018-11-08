@@ -49,3 +49,10 @@ See the examples [here](rust/README.md).
 [sed](https://www.gnu.org/software/sed/) (stream editor) is a non-interactive command-line text editor.
 
 [awk](https://www.gnu.org/software/gawk/manual/gawk.html) AWK is a programming language designed for text processing and typically used as a data extraction and reporting tool.
+
+
+# Week 6 - Nim
+
+[Nim](https://nim-lang.org/) is a systems and applications programming language. Statically typed and compiled, it provides unparalleled performance in an elegant package.
+
+Check out its section [here](nim/README.md).
