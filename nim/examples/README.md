@@ -6,3 +6,7 @@ Bottles of beer
 ```
 nim compile --run beers.nim
 ```
+
+AdventOfCode 2017, Day 2
+========================
+
