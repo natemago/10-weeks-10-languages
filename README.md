@@ -56,3 +56,7 @@ See the examples [here](rust/README.md).
 [Nim](https://nim-lang.org/) is a systems and applications programming language. Statically typed and compiled, it provides unparalleled performance in an elegant package.
 
 Check out its section [here](nim/README.md).
+
+# Week 7 - Scheme
+
+[Scheme](https://en.wikipedia.org/wiki/Scheme_(programming_language)) is a programming language that supports multiple paradigms, including functional programming and imperative programming,[1] and is one of the two main dialects of Lisp.
