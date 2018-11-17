@@ -7,6 +7,6 @@ Run it like so:
 mit-scheme --quiet < beers.scm
 ```
 
-Advent of code 2017, day 14
+Advent of code 2017, day 16
 ===========================
 
